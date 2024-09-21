@@ -1,6 +1,17 @@
 package core.views;
 
+import bstree.BSTree;
+import bstree.Node;
+import core.controllers.GameController;
+import core.controllers.utils.Response;
+import core.controllers.utils.Status;
+import core.models.Game;
+import core.models.Player;
+import core.models.worlds.ComplexWorld;
+import core.models.worlds.SimpleWorld;
+import java.util.Collections;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -18,7 +29,13 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
+    
+    public Game game;
+    public Player player;
+    public static Node destiny;
     public Main() {
+        this.player = new Player("player");
+        this.game = new Game(this.player);
         initComponents();
     }
 
@@ -47,22 +64,23 @@ public class Main extends javax.swing.JFrame {
         LeftArrow_btn = new javax.swing.JLabel();
         RightArrow_btn = new javax.swing.JLabel();
         Map = new javax.swing.JLabel();
+        textArea1 = new java.awt.TextArea();
         endingPanel = new javax.swing.JPanel();
         WinTitle = new javax.swing.JLabel();
         Exit_btn1 = new javax.swing.JLabel();
         Again_btn = new javax.swing.JLabel();
         badEndingPanel = new javax.swing.JPanel();
         ClueTitle = new javax.swing.JLabel();
-        Map1 = new javax.swing.JLabel();
         Again_btn1 = new javax.swing.JLabel();
         Clue_R = new javax.swing.JLabel();
         Clue_L = new javax.swing.JLabel();
+        textArea2 = new java.awt.TextArea();
         simplePanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Question_Atxt = new javax.swing.JTextArea();
         InputBox_Ftxt = new javax.swing.JTextField();
-        Map2 = new javax.swing.JLabel();
         Submit_btn = new javax.swing.JLabel();
+        textArea3 = new java.awt.TextArea();
         complexPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         Question_Atxt1 = new javax.swing.JTextArea();
@@ -83,7 +101,7 @@ public class Main extends javax.swing.JFrame {
         Check5 = new javax.swing.JCheckBox();
         Ans_Opt4 = new javax.swing.JLabel();
         Submit_btn1 = new javax.swing.JLabel();
-        Map3 = new javax.swing.JLabel();
+        textArea4 = new java.awt.TextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(770, 480));
@@ -132,6 +150,11 @@ public class Main extends javax.swing.JFrame {
         Extit_btn.setText("Leave");
         Extit_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Extit_btn.setOpaque(true);
+        Extit_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                Extit_btnMousePressed(evt);
+            }
+        });
         menuPanel.add(Extit_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 300, 160, 40));
 
         daPanel.add(menuPanel, "card2");
@@ -168,6 +191,11 @@ public class Main extends javax.swing.JFrame {
         Option2.setText("Option 2");
         Option2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Option2.setOpaque(true);
+        Option2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                Option2MousePressed(evt);
+            }
+        });
         optionPanel.add(Option2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 240, 200, 50));
 
         Option3.setBackground(new java.awt.Color(51, 51, 51));
@@ -177,6 +205,11 @@ public class Main extends javax.swing.JFrame {
         Option3.setText("Option 3");
         Option3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Option3.setOpaque(true);
+        Option3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                Option3MousePressed(evt);
+            }
+        });
         optionPanel.add(Option3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 300, 200, 50));
 
         Exit_btn.setBackground(new java.awt.Color(153, 255, 153));
@@ -193,6 +226,7 @@ public class Main extends javax.swing.JFrame {
 
         pathPanel.setBackground(new java.awt.Color(255, 255, 255));
         pathPanel.setMinimumSize(new java.awt.Dimension(770, 480));
+        pathPanel.setPreferredSize(new java.awt.Dimension(770, 480));
         pathPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Title.setFont(new java.awt.Font("Bebas Neue", 0, 48)); // NOI18N
@@ -220,13 +254,24 @@ public class Main extends javax.swing.JFrame {
         RightArrow_btn.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         RightArrow_btn.setText("Right >   ");
         RightArrow_btn.setOpaque(true);
+        RightArrow_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                RightArrow_btnMousePressed(evt);
+            }
+        });
         pathPanel.add(RightArrow_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 160, 180, 65));
 
+        Map.setBackground(new java.awt.Color(51, 51, 51));
         Map.setForeground(new java.awt.Color(204, 255, 204));
         Map.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Map.setText("jLabel1");
         Map.setOpaque(true);
-        pathPanel.add(Map, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 160, 160));
+        pathPanel.add(Map, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 280, 160, 160));
+
+        textArea1.setBackground(new java.awt.Color(51, 51, 51));
+        textArea1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        textArea1.setForeground(new java.awt.Color(204, 255, 204));
+        pathPanel.add(textArea1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 180, 180));
 
         daPanel.add(pathPanel, "card4");
 
@@ -235,7 +280,7 @@ public class Main extends javax.swing.JFrame {
         endingPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         WinTitle.setBackground(new java.awt.Color(0, 204, 51));
-        WinTitle.setFont(new java.awt.Font("Bebas Neue", 0, 48)); // NOI18N
+        WinTitle.setFont(new java.awt.Font("Bebas Neue", 0, 36)); // NOI18N
         WinTitle.setForeground(new java.awt.Color(0, 153, 51));
         WinTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         WinTitle.setText("Congrats! You won!");
@@ -247,7 +292,12 @@ public class Main extends javax.swing.JFrame {
         Exit_btn1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Exit_btn1.setText("Leave");
         Exit_btn1.setOpaque(true);
-        endingPanel.add(Exit_btn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, 160, 40));
+        Exit_btn1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                Exit_btn1MousePressed(evt);
+            }
+        });
+        endingPanel.add(Exit_btn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 160, 40));
 
         Again_btn.setBackground(new java.awt.Color(153, 255, 153));
         Again_btn.setFont(new java.awt.Font("Bebas Neue", 0, 24)); // NOI18N
@@ -262,17 +312,11 @@ public class Main extends javax.swing.JFrame {
         badEndingPanel.setBackground(new java.awt.Color(255, 255, 255));
         badEndingPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        ClueTitle.setFont(new java.awt.Font("Bebas Neue", 0, 48)); // NOI18N
+        ClueTitle.setFont(new java.awt.Font("Bebas Neue", 0, 36)); // NOI18N
         ClueTitle.setForeground(new java.awt.Color(51, 51, 51));
         ClueTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         ClueTitle.setText("Not quite close enough!");
         badEndingPanel.add(ClueTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 160, 400, 50));
-
-        Map1.setForeground(new java.awt.Color(204, 255, 204));
-        Map1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Map1.setText("jLabel1");
-        Map1.setOpaque(true);
-        badEndingPanel.add(Map1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 160, 160));
 
         Again_btn1.setBackground(new java.awt.Color(153, 255, 153));
         Again_btn1.setFont(new java.awt.Font("Bebas Neue", 0, 24)); // NOI18N
@@ -281,6 +325,11 @@ public class Main extends javax.swing.JFrame {
         Again_btn1.setText("Try again");
         Again_btn1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Again_btn1.setOpaque(true);
+        Again_btn1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                Again_btn1MousePressed(evt);
+            }
+        });
         badEndingPanel.add(Again_btn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 400, 160, 40));
 
         Clue_R.setFont(new java.awt.Font("Roboto", 2, 12)); // NOI18N
@@ -293,11 +342,17 @@ public class Main extends javax.swing.JFrame {
         Clue_L.setText("A lil to the left, you got it!");
         badEndingPanel.add(Clue_L, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 370, 220, -1));
 
+        textArea2.setBackground(new java.awt.Color(51, 51, 51));
+        textArea2.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        textArea2.setForeground(new java.awt.Color(204, 255, 204));
+        badEndingPanel.add(textArea2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 180, 180));
+
         daPanel.add(badEndingPanel, "card6");
 
         simplePanel.setBackground(new java.awt.Color(255, 255, 255));
         simplePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        Question_Atxt.setBackground(new java.awt.Color(51, 51, 51));
         Question_Atxt.setColumns(20);
         Question_Atxt.setFont(new java.awt.Font("Roboto Black", 0, 18)); // NOI18N
         Question_Atxt.setForeground(new java.awt.Color(204, 255, 204));
@@ -307,17 +362,12 @@ public class Main extends javax.swing.JFrame {
 
         simplePanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 80, 370, 50));
 
+        InputBox_Ftxt.setBackground(new java.awt.Color(51, 51, 51));
         InputBox_Ftxt.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         InputBox_Ftxt.setForeground(new java.awt.Color(204, 255, 204));
         InputBox_Ftxt.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         InputBox_Ftxt.setText("Here goes the answer");
         simplePanel.add(InputBox_Ftxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 520, 80));
-
-        Map2.setForeground(new java.awt.Color(204, 255, 204));
-        Map2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Map2.setText("jLabel1");
-        Map2.setOpaque(true);
-        simplePanel.add(Map2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 160, 160));
 
         Submit_btn.setBackground(new java.awt.Color(153, 255, 153));
         Submit_btn.setFont(new java.awt.Font("Bebas Neue", 0, 24)); // NOI18N
@@ -326,17 +376,29 @@ public class Main extends javax.swing.JFrame {
         Submit_btn.setText("Submit");
         Submit_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Submit_btn.setOpaque(true);
+        Submit_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                Submit_btnMousePressed(evt);
+            }
+        });
         simplePanel.add(Submit_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 400, 160, 40));
+
+        textArea3.setBackground(new java.awt.Color(51, 51, 51));
+        textArea3.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        textArea3.setForeground(new java.awt.Color(204, 255, 204));
+        simplePanel.add(textArea3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 180, 180));
 
         daPanel.add(simplePanel, "card7");
 
         complexPanel.setBackground(new java.awt.Color(255, 255, 255));
         complexPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jScrollPane2.setBackground(new java.awt.Color(51, 51, 51));
         jScrollPane2.setForeground(new java.awt.Color(51, 51, 51));
         jScrollPane2.setToolTipText("Here goes a question");
         jScrollPane2.setOpaque(false);
 
+        Question_Atxt1.setBackground(new java.awt.Color(51, 51, 51));
         Question_Atxt1.setColumns(20);
         Question_Atxt1.setFont(new java.awt.Font("Roboto Black", 0, 18)); // NOI18N
         Question_Atxt1.setForeground(new java.awt.Color(204, 255, 204));
@@ -345,6 +407,7 @@ public class Main extends javax.swing.JFrame {
         Question_Atxt1.setText("Here is a question");
         Question_Atxt1.setToolTipText("");
         Question_Atxt1.setWrapStyleWord(true);
+        Question_Atxt1.setCaretColor(new java.awt.Color(51, 51, 51));
         Question_Atxt1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         Question_Atxt1.setOpaque(false);
         Question_Atxt1.setSelectedTextColor(new java.awt.Color(0, 102, 102));
@@ -353,6 +416,7 @@ public class Main extends javax.swing.JFrame {
 
         complexPanel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 80, 370, 50));
 
+        Opt1_Atxt.setBackground(new java.awt.Color(51, 51, 51));
         Opt1_Atxt.setColumns(20);
         Opt1_Atxt.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         Opt1_Atxt.setForeground(new java.awt.Color(204, 255, 204));
@@ -361,13 +425,17 @@ public class Main extends javax.swing.JFrame {
         jScrollPane3.setViewportView(Opt1_Atxt);
 
         complexPanel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 190, 40));
-        complexPanel.add(Check1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 120, 40));
+
+        Check1.setBackground(new java.awt.Color(153, 255, 153));
+        Check1.setForeground(new java.awt.Color(60, 63, 65));
+        complexPanel.add(Check1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 160, 20, 40));
 
         Ans_Opt1.setBackground(new java.awt.Color(153, 255, 153));
         Ans_Opt1.setForeground(new java.awt.Color(51, 51, 51));
         Ans_Opt1.setOpaque(true);
         complexPanel.add(Ans_Opt1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 160, 230, 40));
 
+        Opt2_Atxt.setBackground(new java.awt.Color(51, 51, 51));
         Opt2_Atxt.setColumns(20);
         Opt2_Atxt.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         Opt2_Atxt.setForeground(new java.awt.Color(204, 255, 204));
@@ -375,13 +443,16 @@ public class Main extends javax.swing.JFrame {
         jScrollPane4.setViewportView(Opt2_Atxt);
 
         complexPanel.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 210, 190, 40));
-        complexPanel.add(Check2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 210, 120, 40));
+
+        Check2.setBackground(new java.awt.Color(153, 255, 153));
+        complexPanel.add(Check2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 210, 20, 40));
 
         Ans_Opt2.setBackground(new java.awt.Color(153, 255, 153));
         Ans_Opt2.setForeground(new java.awt.Color(51, 51, 51));
         Ans_Opt2.setOpaque(true);
         complexPanel.add(Ans_Opt2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 210, 230, 40));
 
+        Opt3_Atxt.setBackground(new java.awt.Color(51, 51, 51));
         Opt3_Atxt.setColumns(20);
         Opt3_Atxt.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         Opt3_Atxt.setForeground(new java.awt.Color(204, 255, 204));
@@ -389,13 +460,16 @@ public class Main extends javax.swing.JFrame {
         jScrollPane5.setViewportView(Opt3_Atxt);
 
         complexPanel.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 160, 190, 40));
-        complexPanel.add(Check3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 160, 120, 40));
+
+        Check3.setBackground(new java.awt.Color(153, 255, 153));
+        complexPanel.add(Check3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 160, 20, 40));
 
         Ans_Opt3.setBackground(new java.awt.Color(153, 255, 153));
         Ans_Opt3.setForeground(new java.awt.Color(51, 51, 51));
         Ans_Opt3.setOpaque(true);
         complexPanel.add(Ans_Opt3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 160, 230, 40));
 
+        Opt4_Atxt.setBackground(new java.awt.Color(51, 51, 51));
         Opt4_Atxt.setColumns(20);
         Opt4_Atxt.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         Opt4_Atxt.setForeground(new java.awt.Color(204, 255, 204));
@@ -404,12 +478,13 @@ public class Main extends javax.swing.JFrame {
 
         complexPanel.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 210, 190, 40));
 
+        Check5.setBackground(new java.awt.Color(153, 255, 153));
         Check5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Check5ActionPerformed(evt);
             }
         });
-        complexPanel.add(Check5, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 210, 120, 40));
+        complexPanel.add(Check5, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 210, 20, 40));
 
         Ans_Opt4.setBackground(new java.awt.Color(153, 255, 153));
         Ans_Opt4.setForeground(new java.awt.Color(51, 51, 51));
@@ -423,13 +498,17 @@ public class Main extends javax.swing.JFrame {
         Submit_btn1.setText("Submit");
         Submit_btn1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         Submit_btn1.setOpaque(true);
+        Submit_btn1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                Submit_btn1MousePressed(evt);
+            }
+        });
         complexPanel.add(Submit_btn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 400, 160, 40));
 
-        Map3.setForeground(new java.awt.Color(204, 255, 204));
-        Map3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Map3.setText("jLabel1");
-        Map3.setOpaque(true);
-        complexPanel.add(Map3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 160, 160));
+        textArea4.setBackground(new java.awt.Color(51, 51, 51));
+        textArea4.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        textArea4.setForeground(new java.awt.Color(204, 255, 204));
+        complexPanel.add(textArea4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 180, 180));
 
         daPanel.add(complexPanel, "card8");
 
@@ -471,10 +550,25 @@ public class Main extends javax.swing.JFrame {
 
     private void Option1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Option1MousePressed
         // TODO add your handling code here:
-        daPanel.removeAll();
-        daPanel.add(pathPanel);
-        daPanel.repaint();
-        daPanel.revalidate();
+        Response response = GameController.createTree(this.game);
+        
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            //JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+            textArea1.setText(this.game.getTree().TreePrinter());
+            textArea2.setText(this.game.getTree().TreePrinter());
+            textArea3.setText(this.game.getTree().TreePrinter());
+            textArea4.setText(this.game.getTree().TreePrinter());
+            daPanel.removeAll();
+            daPanel.add(pathPanel);
+            daPanel.repaint();
+            daPanel.revalidate(); 
+            destiny = this.game.getTree().getRandomLeaf(this.game.getTree().root);
+            System.out.println(destiny.data.getID());
+        }
     }//GEN-LAST:event_Option1MousePressed
 
     private void Check5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Check5ActionPerformed
@@ -483,8 +577,192 @@ public class Main extends javax.swing.JFrame {
 
     private void LeftArrow_btnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LeftArrow_btnMousePressed
         // TODO add your handling code here:
-        System.out.println("LEFT");
+        Response response = GameController.movePlayer(this.game, false);
+        
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            //JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+            daPanel.removeAll();
+            if(this.player.getLocation().data instanceof SimpleWorld) {
+                daPanel.add(simplePanel);
+                Question_Atxt.setText(this.player.getLocation().data.getQuestion());
+            }else if (this.player.getLocation().data instanceof ComplexWorld) {
+                daPanel.add(complexPanel);
+                Question_Atxt1.setText(this.player.getLocation().data.getQuestion());
+                ComplexWorld opt = (ComplexWorld) this.player.getLocation().data;
+                Collections.shuffle(opt.getOptions());
+                Opt1_Atxt.setText(opt.getOptions().get(0));
+                Opt2_Atxt.setText(opt.getOptions().get(1));
+                Opt3_Atxt.setText(opt.getOptions().get(2));
+                Opt4_Atxt.setText(opt.getOptions().get(3));
+            }
+            daPanel.repaint();
+            daPanel.revalidate();
+        }
     }//GEN-LAST:event_LeftArrow_btnMousePressed
+
+    private void RightArrow_btnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RightArrow_btnMousePressed
+        // TODO add your handling code here:
+        Response response = GameController.movePlayer(this.game, true);
+        
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            //JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+            daPanel.removeAll();
+            if(this.player.getLocation().data instanceof SimpleWorld) {
+                daPanel.add(simplePanel);
+                Question_Atxt.setText(this.player.getLocation().data.getQuestion());
+            }else if (this.player.getLocation().data instanceof ComplexWorld) {
+                daPanel.add(complexPanel);
+                Question_Atxt1.setText(this.player.getLocation().data.getQuestion());
+                ComplexWorld opt = (ComplexWorld) this.player.getLocation().data;
+                Collections.shuffle(opt.getOptions());
+                Opt1_Atxt.setText(opt.getOptions().get(0));
+                Opt2_Atxt.setText(opt.getOptions().get(1));
+                Opt3_Atxt.setText(opt.getOptions().get(2));
+                Opt4_Atxt.setText(opt.getOptions().get(3));
+            }
+            daPanel.repaint();
+            daPanel.revalidate();
+        }
+    }//GEN-LAST:event_RightArrow_btnMousePressed
+
+    private void Submit_btnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Submit_btnMousePressed
+        // TODO add your handling code here:
+        Response response = GameController.makeUpdate(this.game, InputBox_Ftxt.getText());
+        
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+            daPanel.removeAll();
+            if(!BSTree.hasChilds(this.player.getLocation())) {
+                System.out.println(this.player.getLocation().data.getID());
+               if(destiny.data.getID() == this.player.getLocation().data.getID()) {
+                   daPanel.add(endingPanel);
+               }else {
+                   daPanel.add(badEndingPanel);
+                   if(this.player.getLocation().data.getID() > destiny.data.getID()) {
+                       Clue_L.setVisible(true);
+                       Clue_R.setVisible(false);
+                   }else {
+                       Clue_L.setVisible(false);
+                       Clue_R.setVisible(true);
+                   }
+               }
+            }else {
+                daPanel.add(pathPanel);
+            }
+
+            daPanel.repaint();
+            daPanel.revalidate();
+        }
+        Question_Atxt.setText(this.player.getLocation().data.getQuestion());
+        InputBox_Ftxt.setText("");
+    }//GEN-LAST:event_Submit_btnMousePressed
+
+    private void Submit_btn1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Submit_btn1MousePressed
+        // TODO add your handling code here:
+        boolean[] marked = new boolean[4];
+        String[] answers = new String[4];
+        
+        marked[0] = Check1.isSelected();
+        marked[1] = Check2.isSelected();
+        marked[2] = Check3.isSelected();
+        marked[3] = Check5.isSelected();
+        
+        answers[0] = Opt1_Atxt.getText();
+        answers[1] = Opt2_Atxt.getText();
+        answers[2] = Opt3_Atxt.getText();
+        answers[3] = Opt4_Atxt.getText();
+        
+        Response response = GameController.makeUpdate(this.game, marked, answers);
+        
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+            daPanel.removeAll();
+            if(!BSTree.hasChilds(this.player.getLocation())) {
+                System.out.println(this.player.getLocation().data.getID());
+               if(destiny.data.getID() == this.player.getLocation().data.getID()) {
+                   daPanel.add(endingPanel);
+               }else {
+                   daPanel.add(badEndingPanel);
+                   if(this.player.getLocation().data.getID() > destiny.data.getID()) {
+                       Clue_L.setVisible(true);
+                       Clue_R.setVisible(false);
+                   }else {
+                       Clue_L.setVisible(false);
+                       Clue_R.setVisible(true);
+                   }
+               }
+            }else {
+                daPanel.add(pathPanel);
+            }
+
+            daPanel.repaint();
+            daPanel.revalidate();
+        }
+        Question_Atxt1.setText(this.player.getLocation().data.getQuestion());
+        ComplexWorld opt = (ComplexWorld) this.player.getLocation().data;
+        Collections.shuffle(opt.getOptions());
+        Opt1_Atxt.setText(opt.getOptions().get(0));
+        Opt2_Atxt.setText(opt.getOptions().get(1));
+        Opt3_Atxt.setText(opt.getOptions().get(2));
+        Opt4_Atxt.setText(opt.getOptions().get(3));
+    }//GEN-LAST:event_Submit_btn1MousePressed
+
+    private void Extit_btnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Extit_btnMousePressed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_Extit_btnMousePressed
+
+    private void Exit_btn1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Exit_btn1MousePressed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_Exit_btn1MousePressed
+
+    private void Again_btn1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Again_btn1MousePressed
+        // TODO add your handling code here:
+        Response response =  GameController.makeRestart(this.game);
+        
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+            destiny = this.game.getTree().getRandomLeaf(this.game.getTree().root);
+            daPanel.removeAll();
+            daPanel.add(pathPanel);
+            daPanel.repaint();
+            daPanel.revalidate();
+        }
+    }//GEN-LAST:event_Again_btn1MousePressed
+
+    private void Option2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Option2MousePressed
+        // TODO add your handling code here:
+        Response response = new Response("Not implemented", Status.NOT_IMPLEMENTED);
+        JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_Option2MousePressed
+
+    private void Option3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Option3MousePressed
+        // TODO add your handling code here:
+        Response response = new Response("Not implemented", Status.NOT_IMPLEMENTED);
+        JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+        
+    }//GEN-LAST:event_Option3MousePressed
 
     /**
      * @param args the command line arguments
@@ -531,7 +809,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JCheckBox Check1;
     private javax.swing.JCheckBox Check2;
     private javax.swing.JCheckBox Check3;
-    private javax.swing.JCheckBox Check4;
     private javax.swing.JCheckBox Check5;
     private javax.swing.JLabel ClueTitle;
     private javax.swing.JLabel Clue_L;
@@ -543,9 +820,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel LeftArrow_btn;
     private javax.swing.JLabel MainTitle;
     private javax.swing.JLabel Map;
-    private javax.swing.JLabel Map1;
-    private javax.swing.JLabel Map2;
-    private javax.swing.JLabel Map3;
     private javax.swing.JLabel NewGame_btn;
     private javax.swing.JTextArea Opt1_Atxt;
     private javax.swing.JTextArea Opt2_Atxt;
@@ -576,5 +850,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel optionPanel;
     private javax.swing.JPanel pathPanel;
     private javax.swing.JPanel simplePanel;
+    private java.awt.TextArea textArea1;
+    private java.awt.TextArea textArea2;
+    private java.awt.TextArea textArea3;
+    private java.awt.TextArea textArea4;
     // End of variables declaration//GEN-END:variables
 }

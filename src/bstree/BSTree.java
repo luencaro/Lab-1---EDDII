@@ -5,6 +5,9 @@
 package bstree;
 
 import core.models.worlds.World;
+import java.awt.List;
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
@@ -128,20 +131,54 @@ public class BSTree {
         printTree(M, root.right, col + (int) Math.pow(2, height - 2), row + 1, height - 1);
     }
     
-    public void TreePrinter() {
+    public String TreePrinter() {
         int h = alturaArbol(this.root);
         int col = getcol(h);
         int[][] M = new int[h][col];
+        StringBuilder output = new StringBuilder();
         printTree(M, this.root, col / 2, 0, h);
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < col; j++) {
                 if (M[i][j] == 0) {
-                    System.out.print("  ");
+                    output.append("   ");
                 } else {
-                    System.out.print(M[i][j] + " ");
-                }
+                    output.append(String.format("%3d", M[i][j]));
+                }   
             }
-            System.out.println();
+            output.append("\n");
         }
+        
+        return output.toString(); // Retorna el texto del árbol
+    }
+    
+    // Método para verificar si un nodo tiene hijos
+    public static boolean hasChilds(Node node) {
+        return node.left != null || node.right != null;
+    }
+    
+    
+     // Method to get a random leaf
+    public static Node getRandomLeaf(Node root) {
+        ArrayList<Node> leaves = new ArrayList<>();
+        findLeaves(root, leaves);
+
+        if (leaves.isEmpty()) {
+            return null; // No leaves in the tree
+        }
+
+        Random random = new Random();
+        return leaves.get(random.nextInt(leaves.size())); // Get a random leaf
+    }
+
+    // Recursive method to find all leaves in the tree
+    private static void findLeaves(Node node, ArrayList<Node> leaves) {
+        if (node == null) {
+            return;
+        }
+        if (node.left == null && node.right == null) {
+            leaves.add(node); // It's a leaf
+        }
+        findLeaves(node.left, leaves); // Traverse left side
+        findLeaves(node.right, leaves);  // Traverse right side
     }
 }

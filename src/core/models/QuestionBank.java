@@ -22,9 +22,9 @@ public class QuestionBank {
     };
 
     public static final String[][] MULTIPLE_CHOICE_QUESTIONS = {
-        {"What is the largest planet in our solar system?", "Jupiter", "Jupiter", "Saturn", "Earth"},
-        {"What is the capital of Japan?", "Tokyo", "Beijing", "Tokyo", "Seoul"},
-        {"Which element is a noble gas?", "Neon", "Oxygen", "Neon", "Nitrogen"}
+        {"What is the largest planet in our solar system?", "Jupiter", "Mars", "Saturn", "Earth"},
+        {"What is the capital of Japan?", "Tokyo", "Beijing", "Kyoto", "Seoul"},
+        {"Which element is a noble gas?", "Neon", "Oxygen", "Gold", "Nitrogen"}
     };
     
     private static final String[][] REPLACEMENT_SIMPLE_QUESTIONS = {
@@ -35,10 +35,10 @@ public class QuestionBank {
     };
 
     private static final String[][] REPLACEMENT_MULTIPLE_CHOICE_QUESTIONS = {
-        {"Which planet is known as the Red Planet?", "Mars", "Mars", "Venus", "Mercury"},
-        {"What is the chemical symbol for Sodium?", "Na", "Na", "K", "Mg"},
-        {"Who discovered penicillin?", "Alexander Fleming", "Louis Pasteur", "Alexander Fleming", "Robert Koch"},
-        {"What is the capital of Australia?", "Canberra", "Sydney", "Canberra", "Melbourne"}
+        {"Which planet is known as the Red Planet?", "Mars", "Earth", "Venus", "Mercury"},
+        {"What is the chemical symbol for Sodium?", "Na", "O", "K", "Mg"},
+        {"Who discovered penicillin?", "Alexander Fleming", "Louis Pasteur", "Barck Obama", "Robert Koch"},
+        {"What is the capital of Australia?", "Canberra", "Sydney", "New York", "Melbourne"}
     };
     
     public static SimpleWorld createSimpleWorld(int id, int index) {

@@ -24,9 +24,6 @@ public class ComplexWorld extends World{
     }
 
     public void setOptions(ArrayList<String> options) { 
-//        if (options == null || options.isEmpty()) {
-//            throw new IllegalArgumentException("Options cannot be null or empty.");
-//        }
         this.options = new ArrayList<>(options); // Copia la lista para evitar cambios externos
     }
 
