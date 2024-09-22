@@ -4,20 +4,21 @@
  */
 package bstree;
 
+import core.models.worlds.World;
+
 /**
  *
  * @author lcaba
  */
 public class Node {
-    public Object data;
+    public World data;
     public Node right;
     public Node left;
 
-    public Node(Object data) {
-        this.data = data;
+    public Node(World world) {
+        this.data = world;
         this.left = null;
         this.right = null;
     }
-    
-    
+       
 }

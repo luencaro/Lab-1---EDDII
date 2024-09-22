@@ -37,7 +37,5 @@ public class Player {
     public void setLocation(Node location) {
         this.location = location;
     }
-    
-    
-    
+       
 }

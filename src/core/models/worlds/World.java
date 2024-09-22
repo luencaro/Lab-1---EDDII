@@ -2,25 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package core.models;
+package core.models.worlds;
 
 /**
  *
  * @author lcaba
  */
-public class Worlds {
-    private int ID;
-    private String name;
-    private String question;
-    private String[] options;
-    private String answer;
+public abstract class World {
+    protected int ID;
+    protected String name;
+    protected String question;
+    protected String answer;
 
-    public Worlds(int ID, String name, String question) {
+    public World(int ID, String name, String question, String answer) {
         this.ID = ID;
         this.name = name;
         this.question = question;
-        options = new String[3];
-        answer = null;
+        this.answer = answer;
     }
 
     public int getID() {
@@ -47,14 +45,6 @@ public class Worlds {
         this.question = question;
     }
 
-    public String[] getOptions() {
-        return options;
-    }
-
-    public void setOptions(String[] options) {
-        this.options = options;
-    }
-
     public String getAnswer() {
         return answer;
     }
@@ -63,5 +53,10 @@ public class Worlds {
         this.answer = answer;
     }
     
+    // Método abstracto para ser implementado por las clases hijas
+    public abstract void displayInfo();
     
+    // Método abstracto para actualizar la información, excluyendo ID
+    public abstract void updateInfo(String name, String question, String answer);
+        
 }
