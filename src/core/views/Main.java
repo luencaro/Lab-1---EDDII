@@ -305,6 +305,11 @@ public class Main extends javax.swing.JFrame {
         Again_btn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Again_btn.setText("Try again");
         Again_btn.setOpaque(true);
+        Again_btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                Again_btnMousePressed(evt);
+            }
+        });
         endingPanel.add(Again_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 400, 160, 40));
 
         daPanel.add(endingPanel, "card5");
@@ -550,7 +555,7 @@ public class Main extends javax.swing.JFrame {
 
     private void Option1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Option1MousePressed
         // TODO add your handling code here:
-        Response response = GameController.createTree(this.game);
+        Response response = GameController.createTree(this.game, 1);
         
         if (response.getStatus() >= 500) {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
@@ -753,16 +758,68 @@ public class Main extends javax.swing.JFrame {
 
     private void Option2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Option2MousePressed
         // TODO add your handling code here:
-        Response response = new Response("Not implemented", Status.NOT_IMPLEMENTED);
-        JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+        Response response = GameController.createTree(this.game, 2);
+        
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            //JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+            textArea1.setText(this.game.getTree().TreePrinter());
+            textArea2.setText(this.game.getTree().TreePrinter());
+            textArea3.setText(this.game.getTree().TreePrinter());
+            textArea4.setText(this.game.getTree().TreePrinter());
+            daPanel.removeAll();
+            daPanel.add(pathPanel);
+            daPanel.repaint();
+            daPanel.revalidate(); 
+            destiny = this.game.getTree().getRandomLeaf(this.game.getTree().root);
+            System.out.println(destiny.data.getID());
+        }
     }//GEN-LAST:event_Option2MousePressed
 
     private void Option3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Option3MousePressed
         // TODO add your handling code here:
-        Response response = new Response("Not implemented", Status.NOT_IMPLEMENTED);
-        JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+        Response response = GameController.createTree(this.game, 3);
+        
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            //JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+            textArea1.setText(this.game.getTree().TreePrinter());
+            textArea2.setText(this.game.getTree().TreePrinter());
+            textArea3.setText(this.game.getTree().TreePrinter());
+            textArea4.setText(this.game.getTree().TreePrinter());
+            daPanel.removeAll();
+            daPanel.add(pathPanel);
+            daPanel.repaint();
+            daPanel.revalidate(); 
+            destiny = this.game.getTree().getRandomLeaf(this.game.getTree().root);
+            System.out.println(destiny.data.getID());
+        }
         
     }//GEN-LAST:event_Option3MousePressed
+
+    private void Again_btnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Again_btnMousePressed
+        // TODO add your handling code here:
+        Response response =  GameController.makeRestart(this.game);
+        
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+            destiny = this.game.getTree().getRandomLeaf(this.game.getTree().root);
+            daPanel.removeAll();
+            daPanel.add(pathPanel);
+            daPanel.repaint();
+            daPanel.revalidate();
+        }
+    }//GEN-LAST:event_Again_btnMousePressed
 
     /**
      * @param args the command line arguments

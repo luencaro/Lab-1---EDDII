@@ -46,7 +46,7 @@ public class Game {
         }     
     }
     
-    public void createTree() {
+    public void createTree(int value) {
         Random random = new Random();
 
         // Crear 7 mundos aleatorios
@@ -54,11 +54,11 @@ public class Game {
         for (int i = 0; i < worlds.length; i++) {
             if (random.nextBoolean()) {
                 // Crear mundos simples aleatorios
-                String[] questionAnswer = QuestionBank.getRandomSimpleQuestion();
+                String[] questionAnswer = QuestionBank.getRandomSimpleQuestion(value);
                 worlds[i] = new SimpleWorld(i + 1, "Simple World " + (i + 1), questionAnswer[0], questionAnswer[1]);
             } else {
                 // Crear mundos con opciones múltiples aleatorios
-                String[] questionOptions = QuestionBank.getRandomMultipleChoiceQuestion();
+                String[] questionOptions = QuestionBank.getRandomMultipleChoiceQuestion(value);
                 ArrayList<String> options = new ArrayList<>();
                 for (int j = 1; j <= questionOptions.length - 1; j++) {
                     options.add(questionOptions[j]);

@@ -14,9 +14,9 @@ import core.models.Game;
  */
 public class GameController {
     
-    public static Response createTree(Game game) {
+    public static Response createTree(Game game, int option) {
         try {
-            game.createTree();
+            game.createTree(option);
             return new Response("Tree made successfully", Status.OK);
         }catch (Exception ex) {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
